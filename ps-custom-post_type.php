@@ -2,7 +2,7 @@
 /*
 Plugin Name: 002 PS Custom Post Type 
 Plugin URI: http://www.prime-strategy.co.jp
-Description: Manager custom post type
+Description: Manager custom post type  設定ファイル./config/ps-custom-post_type-config.phpを設定してください。 メィデアタクソノミーの処理はプラグイン「ps-taxonomy-expander」を参照しました。
 Author: Wang Bin
 Version: 1.0
 Author URI: http://www.prime-strategy.co.jp
@@ -34,7 +34,7 @@ class Ps_Custom_Post_Type{
 	}
 
 /*
- * 
+ * Takes care of loading up Ps_Custom_Post_Type
  */
 function init(){
 	define( 'DOCUMENTROOT' , $_SERVER['DOCUMENT_ROOT']);
@@ -46,6 +46,7 @@ function init(){
 	//翻訳に関しては、次のバンジョーを対応します。
 	add_action( 'plugins_loaded'    , array( &$this, 'load_plugin_textdomain' ) );    
 	
+	//全部タクソノミーとカスタム投稿タイプを読み込み
 	$this->PsMyConf = $taxonomy;
 	
 	add_action( 'init', array($this , 'add_page_taxonomy' ) );
@@ -53,6 +54,7 @@ function init(){
 	//アイキャッチ画像
 	add_action( 'init', array($this , 'add_theme_support' ) );
 		
+	//カスタム投稿一覧にアイキャッチ画像の表示を追加する
 	foreach ( $taxonomy as $key => $val  ){
 		add_filter( 'manage_' . $val->post_type . '_posts_columns', array(&$this , 'add_posts_columns' ));
 		add_action('manage_' . $val->post_type . '_posts_custom_column', array(&$this , 'scompt_custom_column'), 10, 2);
@@ -71,6 +73,7 @@ function init(){
 		add_action( 'init', array( &$this, 'add_custom_post_tag'));
 	}
 
+	//メィデアのタクソノミーをカスタマイズ
 	if ( $attachement->taxonomy ){
 		$this->attachement = $attachement;
 		add_action( 'init', array(&$this, 'add_attachementGenre' ));
@@ -82,9 +85,14 @@ function init(){
 
 }
 
-/*
-*投稿に順序を追加する
-*/
+/** 
+ * ファンクション名：give_my_post_edit
+ * 機能概要: 投稿に順序を追加する
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function give_my_post_edit(){
 	add_post_type_support( 'post', 'page-attributes' );
 }
@@ -120,9 +128,14 @@ function add_page_taxonomy() {
 	}
 }
 
-/*
-*日付の絞り込み検索の障害対応
-*/
+/** 
+ * ファンクション名：ps_search_where_error
+ * 機能概要：日付の絞り込み検索の障害対応
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function ps_search_where_error( $w ){
 
 	if ( $_REQUEST['post_type'] == 'post' || $_REQUEST['post_type'] == 'attachment'){
@@ -136,8 +149,13 @@ function ps_search_where_error( $w ){
 	return $w;
 }
 
-/*
- * カスタム投稿およびタクソノミーを構成する
+/** 
+ * ファンクション名：add_page_taxonomy
+ * 機能概要：カスタム投稿およびタクソノミーを構成する
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
  */
 function Ps_register_post_type( $Conf , $showflg = true){
 	$WPLANG = get_option('WPLANG' , true);
@@ -242,9 +260,14 @@ function Ps_register_post_type( $Conf , $showflg = true){
 
 }
 
-/*
-*フラグの追加（投稿タグ）
-*/
+/** 
+ * ファンクション名：add_custom_post_tag
+ * 機能概要：フラグの追加（投稿タグ）
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function add_custom_post_tag(){
 	
 	$name = $this->custom_post_tag->show_name;
@@ -275,6 +298,14 @@ function add_custom_post_tag(){
 /*
 *メディアジャンルを追加
 */
+/** 
+ * ファンクション名：add_attachementGenre
+ * 機能概要：メィデアのタクソノミーを設定する
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function add_attachementGenre(){
 	
 	$genre = $this->attachement;
@@ -314,6 +345,14 @@ function add_attachementGenre(){
 /*
  * メィデアジャンルをメニューに追加する
  */
+/** 
+ * ファンクション名：add_media_taxonomy_menu
+ * 機能概要：メィデアのタクソノミーをメニューに追加する
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function add_media_taxonomy_menu( ) {
     global $wp_taxonomies, $submenu;
  
@@ -344,6 +383,14 @@ function add_media_taxonomy_menu( ) {
 /*
  * メディアジャンルよりメディア一覧
  */
+/** 
+ * ファンクション名：registerGenreAttachementLink
+ * 機能概要 : attachment リックを設定
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function registerGenreAttachementLink(){
 	$genre = $this->attachement;
 	if ( $_GET[$genre->taxonomy] &&   ($_GET['post_type'] == 'attachment' || $_GET['post_type'] == 'post' ) ){
@@ -357,6 +404,16 @@ function registerGenreAttachementLink(){
 	
 }
 
+/** 
+ * ファンクション名：replace_attachement_taxonomy_input_to_check
+ * 機能概要：メィデア編集画面のメィデアカスタムタクソノミーをチェックボックスにする
+ * 「ps-taxonomy-expander」を多少参照しました。			 
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param  メィデアの項目
+ * @param  投稿(attachment)
+ * @return  htmlタグ
+ */
 function replace_attachement_taxonomy_input_to_check( $form_fields, $post ) {
     if ( $form_fields ) {
         foreach ( $form_fields as $taxonomy => $obj ) {
@@ -405,6 +462,18 @@ function replace_attachement_taxonomy_input_to_check( $form_fields, $post ) {
     return $form_fields;
 }
 
+/** 
+ * ファンクション名：walker_media_taxonomy_html
+ * 機能概要：チェックボックスを作成する
+ * 「ps-taxonomy-expander」を多少参照しました。			 
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param 投稿ID
+ * @param タクソノミー
+ * @param 
+ * @param 
+ * @return  チェックボックスｈｔｍｌ
+ */
 function walker_media_taxonomy_html( $post_id, $taxonomy,  $term_id_arr, $taxonomy_tree, $html = '', $cnt = 0 ) {
 	$this->single_taxonomies = get_option( 'single_taxonomies' ) ? get_option( 'single_taxonomies' ) : array();
 	foreach ( $taxonomy_tree as $term_id => $arr ) {
@@ -420,6 +489,14 @@ function walker_media_taxonomy_html( $post_id, $taxonomy,  $term_id_arr, $taxono
 	return $html;
 }
 
+/** 
+ * ファンクション名：add_posts_columns
+ * 機能概要：アイキャッチ画像のくらむを設定する
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param クラム
+ * @return  クラム
+ */
 function add_posts_columns($columns) {
 	global $wp_version;
 
@@ -431,6 +508,14 @@ function add_posts_columns($columns) {
 	
 }
 
+/** 
+ * ファンクション名：scompt_custom_column
+ * 機能概要：カスタム投稿一覧にアイキャッチ画像を表示させる
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function scompt_custom_column($column_name, $id) {
 	global $post , $blog_id;
 
@@ -448,6 +533,14 @@ function scompt_custom_column($column_name, $id) {
     
 }
 
+/** 
+ * ファンクション名：add_theme_support
+ * 機能概要：アイキャッチ画像の設定
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function add_theme_support(){
 	/*
 	*アイキャッチ画像を設定(Main画像)
@@ -458,6 +551,14 @@ function add_theme_support(){
 
 }
 
+/** 
+ * ファンクション名：load_plugin_textdomain
+ * 機能概要：翻訳ファイルを追加（未対応）
+ * 作成：プライム・ストラテジー株式会社 王 濱
+ * 変更：
+ * @param なし
+ * @return  なし
+ */
 function load_plugin_textdomain( ){
 	 load_plugin_textdomain( '002-ps-cuntom-type-languages', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
@@ -466,6 +567,6 @@ function load_plugin_textdomain( ){
 
 $Ps_Custom_Post_Type = new Ps_Custom_Post_Type();
 
-//include_once ( dirname(__FILE__) . '/config/ps-custom-post_type-functions.php' );
+include_once ( dirname(__FILE__) . '/config/ps-custom-post_type-functions.php' );
 
 ?>
