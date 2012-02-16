@@ -51,7 +51,8 @@ class Ps_Custom_Post_Type{
 		add_action( 'init', array($this , 'add_page_taxonomy' ) );
 	
 		//アイキャッチ画像
-		add_action( 'init', array($this , 'add_theme_support' ) );
+		//add_action( 'init', array($this , 'add_theme_support' ) );
+		$this->add_theme_support( );
 			
 		//カスタム投稿一覧にアイキャッチ画像の表示を追加する
 		foreach ( $taxonomy as $key => $val  ){
