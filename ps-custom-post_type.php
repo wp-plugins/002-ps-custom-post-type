@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 Plugin Name: 002 PS Custom Post Type 
 Plugin URI: http://wordpress.org/extend/plugins/002-ps-custom-post-type/
@@ -269,29 +269,20 @@ class Ps_Custom_Post_Type{
 	 * @return  なし
 	 */
 	function add_custom_post_tag(){
-		
+		global $wp_rewrite;
 		$name = $this->custom_post_tag->show_name;
-		$args = array(
-			'label' => $name,
-			'labels' => array(
-				'name' => $name,
-				'singular_name' => $name,
-				'search_items' => $name . 'を検索',
-				'popular_items' => '登録の多い' . $name,
-				'all_items' => 'すべての' . $name,
-				'parent_item' => '上位' . $name ,
-				'edit_item' => $name . 'を編集',
-				'update_item' =>'更新',
-				'add_new_item' => $name . 'を追加',
-				'new_item_name' =>  $name . 'を新規追加',
-			),
+
+		register_taxonomy( 'post_tag', 'post', array(
+			'label' => $name,            'hierarchical' => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var' => 'tag',
+			'rewrite' => did_action( 'init' ) ? array(
+				'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
+				'with_front' => ( get_option('tag_base') && ! $wp_rewrite->using_index_permalinks() ) ? false : true ) : false,
 			'public' => true,
 			'show_ui' => true,
-			'hierarchical' => true,
-			'show_tagcloud' => false,
-			'_builtin' => false
-		);
-		register_taxonomy('post_tag', 'post', $args);
+			'_builtin' => true,
+		) );
 	}
 	
 	
