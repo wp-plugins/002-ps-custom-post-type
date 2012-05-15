@@ -2,7 +2,7 @@
 /*
 Plugin Name: 002 PS Custom Post Type 
 Plugin URI: http://wordpress.org/extend/plugins/002-ps-custom-post-type/
-Description: Manager custom post type  setting ./config/ps-custom-post_type-config.php
+Description: Manager custom post type  setting ./config/ps-custom-post_type-config.php. If you want to update from the most recent version,Please be careful not to overwrite the configuration file. 
 Author: Wang Bin
 Version: 1.1
 Author URI: http://www.prime-strategy.co.jp/about/staff/oh/
