@@ -492,9 +492,9 @@ class Ps_Custom_Post_Type{
 		global $wp_version;
 	
 		if (substr($wp_version, 0, 3) < '3.1' ){
-	    	$columns['category'] = "カテゴリー";
+	    	$columns['category'] = __( 'Category' );
 		}
-	    $columns['featured_image'] = "アイキャッチ";
+	    $columns['featured_image'] = __( 'Featured Image ' );
 		return $columns;
 		
 	}
