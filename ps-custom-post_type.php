@@ -494,7 +494,7 @@ class Ps_Custom_Post_Type{
 		if (substr($wp_version, 0, 3) < '3.1' ){
 	    	$columns['category'] = __( 'Category' );
 		}
-	    $columns['featured_image'] = __( 'Featured Image ' );
+	    $columns['featured_image'] = __( 'Featured Images' );
 		return $columns;
 		
 	}
