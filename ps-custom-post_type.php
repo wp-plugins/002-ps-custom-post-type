@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 Plugin Name: 002 PS Custom Post Type 
 Plugin URI: http://wordpress.org/extend/plugins/002-ps-custom-post-type/
