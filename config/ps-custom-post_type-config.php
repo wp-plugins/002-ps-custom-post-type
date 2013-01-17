@@ -8,6 +8,10 @@
 
 	//追加カスタム投稿タイプ共通配列 
 	//Taxonomy 名追加カテゴリ-、配列のように入力すれば、一つカスタム投稿タイプに複数のタクソノミーを構成できます。
+
+	$taxonomy = new stdClass( );
+	$taxonomy->sample = new stdClass( );
+
 	$taxonomy->sample->category_name= array('sample-category' => 'カテゴリー(サンプル)');
 	//追加記事タイプ
 	$taxonomy->sample->post_type = 'sample';
@@ -61,6 +65,7 @@
 
 	/***************投稿タグの処理***********************/
 	/********特別な処理がない場合、コメントアウトしてください。**************/
+	$custom_post_tag = new stdClass( );
 	$custom_post_tag->show_name = 'カスタムタグ';
 	//表示英語名
 	$custom_post_tag->show_name_eng = 'Custom tag';
@@ -69,6 +74,7 @@
 	
 	/***************Attachement のカスタムタクソノミー***********************/
 	/********処理がない場合、コメントアウトしてください。**************/
+	$attachement = new stdClass( );
 	$attachement->taxonomy = 'media_genres';
 	$attachement->show_name = 'カスタムメィデア分類';
 	$attachement->show_name_en = 'Custom Media Genres';

@@ -4,7 +4,7 @@ Plugin Name: 002 PS Custom Post Type
 Plugin URI: http://wordpress.org/extend/plugins/002-ps-custom-post-type/
 Description: Manager custom post type  setting ./config/ps-custom-post_type-config.php. If you want to update from the most recent version,Please be careful not to overwrite the configuration file. 
 Author: Wang Bin
-Version: 1.1
+Version: 1.2
 Author URI: http://www.prime-strategy.co.jp/about/staff/oh/
 */
 
@@ -465,7 +465,7 @@ class Ps_Custom_Post_Type{
 	 * @param 
 	 * @return  チェックボックスｈｔｍｌ
 	 */
-	function walker_media_taxonomy_html( $post_id, $taxonomy,  $term_id_arr, $taxonomy_tree, $html = '', $cnt = 0 ) {
+	function walker_media_taxonomy_html( $post_id, $taxonomy,  $term_id_arr, $taxonomy_tree, $html = '', &$cnt = 0 ) {
 		$this->single_taxonomies = get_option( 'single_taxonomies' ) ? get_option( 'single_taxonomies' ) : array();
 		foreach ( $taxonomy_tree as $term_id => $arr ) {
 			$checked = is_object_in_term( $post_id, $taxonomy, $term_id ) ? ' checked="checked"' : '';
@@ -474,7 +474,7 @@ class Ps_Custom_Post_Type{
 			$html .= ' <input type="' . $type . '" id="attachments[' . $post_id . '][' . $taxonomy . ']-' . $cnt . '" name="attachments[' . $post_id . '][' . $taxonomy . '][]" value="' . esc_attr( $term_id_arr[$term_id]->name ) . '"' . $checked . ' /><label for="attachments[' . $post_id . '][' . $taxonomy . ']-' . $cnt . '">' . esc_html( $term_id_arr[$term_id]->name ) . "</label><br />\n";
 			$cnt++;
 			if ( count( $arr ) ) {
-				$html = $this->walker_media_taxonomy_html( $post_id, $taxonomy, $term_id_arr, $arr, $html, &$cnt );
+				$html = $this->walker_media_taxonomy_html( $post_id, $taxonomy, $term_id_arr, $arr, $html, $cnt );
 			}
 		}
 		return $html;
